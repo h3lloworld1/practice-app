@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Menu\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,24 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('authenticate', [AuthController::class, 'authenticate']);
+// auth
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('authenticate', [AuthController::class, 'authenticate'])->name('login');
+
+
+// menu for admins
+Route::prefix('menus')->group(function () {
+    Route::post('/create', [MenuController::class, 'store'])->name('menus.store');
+});
+
+// menu for users
+Route::prefix('menus')->group(function () {
+    Route::get('/', [MenuController::class, 'index'])->name('menus');
+    Route::get('/{id}', [MenuController::class, 'get'])->name('menus.get');
+    Route::delete('/delete/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
+});
+
 
