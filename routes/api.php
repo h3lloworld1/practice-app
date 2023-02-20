@@ -33,6 +33,7 @@ Route::post('authenticate', [AuthController::class, 'authenticate'])->name('logi
 // menu for admins
 Route::prefix('menus')->group(function () {
     Route::post('/create', [MenuController::class, 'store'])->name('menus.store');
+    Route::put('/update/{id}', [MenuController::class, 'update'])->name('menus.update');
 });
 
 // menu for users

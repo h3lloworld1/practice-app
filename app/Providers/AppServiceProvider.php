@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repositories\Menu\Interfaces\MenuRepositoryInterface;
-use App\Repositories\Menu\MenuRepository;
-use App\Services\Menu\Contracts\MenuServiceContract;
+use App\Services\Menu\Interfaces\MenuServiceInterface;
 use App\Services\Menu\MenuService;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(MenuServiceContract::class, MenuService::class);
+        $this->app->bind(MenuServiceInterface::class, MenuService::class);
     }
 
     /**

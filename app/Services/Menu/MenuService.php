@@ -6,11 +6,12 @@ namespace App\Services\Menu;
 use App\Models\Menu;
 use App\Models\Sauce;
 use App\Repositories\Menu\Interfaces\MenuRepositoryInterface;
-use App\Services\Menu\Contracts\MenuServiceContract;
+use App\Services\Menu\Interfaces\MenuServiceInterface;
 use Illuminate\Support\Collection;
+use PhpParser\Node\Param;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class MenuService implements MenuServiceContract {
+class MenuService implements MenuServiceInterface {
 
     public function __construct(public MenuRepositoryInterface $menuRepository)
     {
@@ -19,19 +20,7 @@ class MenuService implements MenuServiceContract {
 
     public function create(ParameterBag $data): ?Menu {
 
-        $menu = $this->menuRepository->create($data);
-
-        $sauces = $data->get('sauces');
-
-        foreach ($sauces as $sauce) {
-            $newSauce = new Sauce;
-            $newSauce->name = $sauce['name'];
-            $newSauce->status = $sauce['status'];
-            $newSauce->menu_id = $menu->id;
-            $newSauce->save();
-        }
-
-        return $menu;
+        return $this->menuRepository->create($data);
     }
 
     public function list(): Collection {
@@ -40,6 +29,11 @@ class MenuService implements MenuServiceContract {
 
     public function get(int $id): ?Menu {
         return $this->menuRepository->get($id);
+    }
+
+    public function update(int $id, ParameterBag $data): ?Menu {
+
+        return $this->menuRepository->update($id, $data);
     }
 
     public function destroy(int $id): String {

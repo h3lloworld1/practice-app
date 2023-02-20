@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuRequests\CreateMenuRequest;
+use App\Http\Requests\MenuRequests\UpdateMenuRequest;
 use App\Http\Resources\MenuResources\MenuResource;
 use App\Http\Resources\MenuResources\MenuResourceCollection;
-use App\Services\Menu\Contracts\MenuServiceContract;
+use App\Services\Menu\Interfaces\MenuServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class MenuController extends Controller
 {
-    public function __construct(private MenuServiceContract $menuService)
+    public function __construct(private MenuServiceInterface $menuService)
     {
 
     }
@@ -50,7 +51,7 @@ class MenuController extends Controller
         return new MenuResource($menu);
     }
 
-    public function destroy(string $id): JsonResponse {
+    public function destroy(int $id): JsonResponse {
 
         try {
             $message = $this->menuService->destroy($id);
@@ -59,5 +60,19 @@ class MenuController extends Controller
         }
 
         return response()->json(['message' => $message], 204);
+    }
+
+    public function update(int $id, UpdateMenuRequest $request) {
+
+        $data = new ParameterBag($request->validated());
+        $sauces = $data->get('sauces');
+
+        if (empty($sauces)) {
+            return response()->json(['message' => 'Sauces must not be empty.'], 400);
+        }
+
+        $menu = $this->menuService->update($id, $data);
+
+        return new MenuResource($menu);
     }
 }

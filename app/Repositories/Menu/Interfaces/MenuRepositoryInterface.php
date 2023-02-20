@@ -15,4 +15,6 @@ interface MenuRepositoryInterface
     public function get(int $id): ?Menu;
 
     public function destroy(int $id): String;
+
+    public function update(int $id, ParameterBag $data): ?Menu;
 }
