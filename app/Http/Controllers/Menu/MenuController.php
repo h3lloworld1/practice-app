@@ -62,7 +62,7 @@ class MenuController extends Controller
         return response()->json(['message' => $message], 204);
     }
 
-    public function update(int $id, UpdateMenuRequest $request) {
+    public function update(int $id, UpdateMenuRequest $request): MenuResource | JsonResponse {
 
         $data = new ParameterBag($request->validated());
         $sauces = $data->get('sauces');

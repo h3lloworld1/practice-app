@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Order\OrderSentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,18 +30,22 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('authenticate', [AuthController::class, 'authenticate'])->name('login');
 
-
 // menu for admins
 Route::prefix('menus')->group(function () {
     Route::post('/create', [MenuController::class, 'store'])->name('menus.store');
     Route::put('/update/{id}', [MenuController::class, 'update'])->name('menus.update');
-});
-
-// menu for users
-Route::prefix('menus')->group(function () {
-    Route::get('/', [MenuController::class, 'index'])->name('menus');
     Route::get('/{id}', [MenuController::class, 'get'])->name('menus.get');
     Route::delete('/delete/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
+});
+
+// menu for all
+Route::prefix('menus')->group(function () {
+    Route::get('/', [MenuController::class, 'index'])->name('menus.index');
+});
+
+// orders
+Route::prefix('order')->group(function () {
+    Route::post('/sent', [OrderSentController::class, 'store'])->name('order.store');
 });
 
 

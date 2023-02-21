@@ -8,7 +8,6 @@ use App\Models\Sauce;
 use App\Repositories\Menu\Interfaces\MenuRepositoryInterface;
 use App\Services\Menu\Interfaces\MenuServiceInterface;
 use Illuminate\Support\Collection;
-use PhpParser\Node\Param;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class MenuService implements MenuServiceInterface {
