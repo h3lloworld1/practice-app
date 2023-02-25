@@ -5,6 +5,7 @@ namespace App\Repositories\Menu;
 
 use App\Models\Menu;
 use App\Models\Sauce;
+use App\Models\Section;
 use App\Repositories\Menu\Interfaces\MenuRepositoryInterface;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -14,14 +15,30 @@ class MenuRepository implements MenuRepositoryInterface
     public function create(ParameterBag $data): ?Menu {
 
         $menu = Menu::create($data->all());
-        $sauces = $data->get('sauces');
 
-        foreach ($sauces as $sauce) {
-            $newSauce = new Sauce;
-            $newSauce->name = $sauce['name'];
-            $newSauce->status = $sauce['status'];
-            $newSauce->menu_id = $menu->id;
-            $newSauce->save();
+        if ($data->has('sauces')) {
+            $sauces = $data->get('sauces');
+
+            foreach ($sauces as $sauce) {
+                $newSauce = new Sauce;
+                $newSauce->name = $sauce['name'];
+                $newSauce->status = $sauce['status'];
+                $newSauce->menu_id = $menu->id;
+                $newSauce->save();
+            }
+        }
+
+        if ($data->has('sections')) {
+            $sections = $data->get('sections');
+
+            foreach ($sections as $section) {
+                $newSection = new Section;
+                $newSection->name = $section['name'];
+                $newSection->description = $section['description'];
+                $newSection->status = $section['status'];
+                $newSection->menu_id = $menu->id;
+                $newSection->save();
+            }
         }
 
         return $menu;
@@ -41,42 +58,42 @@ class MenuRepository implements MenuRepositoryInterface
         return 'Menu deleted';
     }
 
-    public function update(int $id, ParameterBag $data): ?Menu {
+    public function update(int $id, ParameterBag $data): ?Menu
+    {
         $menu = $this->get($id);
 
-        $dataWithoutSauces = collect($data)->except(['sauces'])->toArray();
-
-        $menu->update($dataWithoutSauces);
-
-        $sauces = $data->get('sauces');
+        $menu->update($data->all());
 
         $updatedSauceIds = [];
+        $updatedSectionIds = [];
 
-        $existingSauceIds = $menu->sauces()->pluck('id')->toArray();
-
-        foreach ($sauces as $sauce) {
+        collect($data->get('sauces', []))->each(function ($sauce) use ($menu, &$updatedSauceIds) {
             if (isset($sauce['id'])) {
-                $sauceId = $sauce['id'];
-                $existingSauce = Sauce::find($sauceId);
-
-                if ($existingSauce) {
-                    $existingSauce->update($sauce);
-                    $updatedSauceIds[] = $sauceId;
-                }
+                $menu->sauces()->where('id', $sauce['id'])->update($sauce);
+                $updatedSauceIds[] = $sauce['id'];
             } else {
-                $newSauce = new Sauce;
-                $newSauce->name = $sauce['name'];
-                $newSauce->status = $sauce['status'];
-                $newSauce->menu_id = $menu->id;
-                $newSauce->save();
+                $newSauce = new Sauce($sauce);
+                $menu->sauces()->save($newSauce);
                 $updatedSauceIds[] = $newSauce->id;
             }
-        }
+        });
 
-        $saucesToDelete = array_diff($existingSauceIds, $updatedSauceIds);
-        $menu->sauces()->whereIn('id', $saucesToDelete)->delete();
+        collect($data->get('sections', []))->each(function ($section) use ($menu, &$updatedSectionIds) {
+            if (isset($section['id'])) {
+                $menu->sections()->where('id', $section['id'])->update($section);
+                $updatedSectionIds[] = $section['id'];
+            } else {
+                $newSection = new Section($section);
+                $menu->sections()->save($newSection);
+                $updatedSectionIds[] = $newSection->id;
+            }
+        });
+
+        $menu->sauces()->whereNotIn('id', $updatedSauceIds)->delete();
+        $menu->sections()->whereNotIn('id', $updatedSectionIds)->delete();
 
         return $menu;
     }
+
 
 }

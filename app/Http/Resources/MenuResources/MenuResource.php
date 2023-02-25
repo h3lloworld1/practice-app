@@ -3,9 +3,12 @@
 namespace App\Http\Resources\MenuResources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Traits\LoadSelectedColumnsTrait;
 
 class MenuResource extends JsonResource
 {
+    use LoadSelectedColumnsTrait;
+
     /**
      * Transform the resource into an array.
      *
@@ -16,7 +19,8 @@ class MenuResource extends JsonResource
     public function toArray($request)
     {
 
-        $this->loadSaucesWithSelectedColumns();
+        $this->loadWithSelectedColumns('sauces', ['id', 'menu_id', 'name', 'status']);
+        $this->loadWithSelectedColumns('sections', ['id', 'menu_id', 'description', 'name', 'status']);
 
         return [
                 'id' => $this->id,
@@ -31,13 +35,7 @@ class MenuResource extends JsonResource
                 'price' => $this->price,
                 'discount_price' => $this->discount_price,
                 'sauces' => $this->sauces,
+                'sections' => $this->sections
         ];
-    }
-
-    private function loadSaucesWithSelectedColumns()
-    {
-        return $this->load(['sauces' => function ($query) {
-            $query->select('id', 'menu_id', 'name', 'status');
-        }]);
     }
 }

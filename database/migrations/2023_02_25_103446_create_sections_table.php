@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sauces', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->text('description');
             $table->boolean('status')->default(false);
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sauces');
+        Schema::dropIfExists('sections');
     }
 };
