@@ -19,25 +19,12 @@ class MenuController extends Controller
 
     }
 
-    public function store(CreateMenuRequest $request): MenuResource | JsonResponse {
-
-        $menu = $this->menuService->create(new ParameterBag($request->validated()));
-
-        if (!$menu) {
-            return response()->json(['message' => 'Something went wrong.'], 500);
-        }
-
-        return new MenuResource($menu);
+    public function store(CreateMenuRequest $request): MenuResource {
+        return new MenuResource($this->menuService->create(new ParameterBag($request->validated())));
     }
 
     public function index(): MenuResourceCollection | JsonResponse {
-        $menus = $this->menuService->list();
-
-        if ($menus->isEmpty()) {
-            return response()->json(['message' => 'No available menus'], 404);
-        }
-
-        return new MenuResourceCollection($menus);
+        return new MenuResourceCollection($this->menuService->list());
     }
 
     public function get(int $id): MenuResource | JsonResponse {
@@ -65,14 +52,7 @@ class MenuController extends Controller
     public function update(int $id, UpdateMenuRequest $request): MenuResource | JsonResponse {
 
         $data = new ParameterBag($request->validated());
-        $sauces = $data->get('sauces');
 
-        if (empty($sauces)) {
-            return response()->json(['message' => 'Sauces must not be empty.'], 400);
-        }
-
-        $menu = $this->menuService->update($id, $data);
-
-        return new MenuResource($menu);
+        return new MenuResource($this->menuService->update($id, $data));
     }
 }

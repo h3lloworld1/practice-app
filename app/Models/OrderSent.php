@@ -18,7 +18,8 @@ class OrderSent extends Model
         'additional_info',
         'quantity',
         'price',
-        'accepted'
+        'accepted',
+        'total_price'
     ];
 
 }
