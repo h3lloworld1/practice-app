@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\OrderRequests;
+namespace App\Http\Requests\OrderRequests\OrderSent;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,7 +31,12 @@ class OrderSentRequest extends FormRequest
             'quantity' => 'required|integer',
             'price' => 'required|numeric',
             'total_price' => 'nullable|integer',
-            'accepted' => 'required|boolean',
+            'phone_number' => 'required|integer',
+            'current_status' => 'string',
+            'sections' => 'array',
+            'sections.*.name' => 'required_if:sections,array|string|max:255',
+            'sections.*.status' => 'required_if:sections,array|boolean',
+            'sections.*.description' => 'required_if:sections,array|string',
         ];
     }
 }

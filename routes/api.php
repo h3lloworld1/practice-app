@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Order\OrderInProgressController;
 use App\Http\Controllers\Order\OrderSentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,8 +45,14 @@ Route::prefix('menus')->group(function () {
 });
 
 // orders
-Route::prefix('order')->group(function () {
-    Route::post('/sent', [OrderSentController::class, 'store'])->name('order.store');
+Route::prefix('orders')->group(function () {
+    Route::post('/send-order', [OrderSentController::class, 'store'])->name('order.store');
+    Route::get('/sent-orders', [OrderSentController::class, 'index'])->name('order.index');
+    Route::put('/sent-orders/update/{id}', [OrderSentController::class, 'update'])->name('order.update');
+    Route::put('/sent-orders/decline/{id}', [OrderSentController::class, 'decline'])->name('order.decline');
+
+    Route::get('/in-progress', [OrderInProgressController::class, 'index'])->name('order_in_progress.index');
+    Route::post('/in-progress/create', [OrderInProgressController::class, 'store'])->name('order_in_progress.store');
 });
 
 

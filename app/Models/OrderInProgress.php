@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class OrderInProgress extends Model
+class OrderInProgress extends Order
 {
     use HasFactory;
+
+    protected $table = 'orders_in_progress';
+
 }

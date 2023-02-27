@@ -45,7 +45,7 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     public function list(): Collection {
-        return Menu::all();
+        return Menu::all()->sortDesc();
     }
 
     public function get(int $id): ?Menu {

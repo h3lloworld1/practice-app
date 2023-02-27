@@ -14,7 +14,7 @@ class Section extends Model
         'name',
         'status',
         'description',
-        'menu_id'
+        'menu_id',
     ];
 
     public function menu(): BelongsTo

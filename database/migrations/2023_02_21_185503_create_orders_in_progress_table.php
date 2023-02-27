@@ -18,11 +18,13 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('sauce');
-            $table->boolean("double_meat");
-            $table->text('additional_info');
+            $table->boolean("double_meat")->default(false);
+            $table->text('additional_info')->nullable();
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
-            $table->string('in_progress')->default(true);
+            $table->json('sections')->nullable();
+            $table->integer('total_price')->nullable();
+            $table->string('current_status')->default('in_progress');
         });
     }
 

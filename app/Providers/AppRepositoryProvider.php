@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Menu\Interfaces\MenuRepositoryInterface;
 use App\Repositories\Menu\MenuRepository;
-use App\Repositories\OrderSent\Interfaces\OrderSentRepositoryInterface;
-use App\Repositories\OrderSent\OrderSentRepository;
+use App\Repositories\Orders\Interfaces\OrderInProgressRepositoryInterface;
+use App\Repositories\Orders\Interfaces\OrderSentRepositoryInterface;
+use App\Repositories\Orders\OrderInProgress\OrderInProgressRepository;
+use App\Repositories\Orders\OrderSent\OrderSentRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppRepositoryProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class AppRepositoryProvider extends ServiceProvider
     {
         $this->app->bind(MenuRepositoryInterface::class, MenuRepository::class);
         $this->app->bind(OrderSentRepositoryInterface::class, OrderSentRepository::class);
+        $this->app->bind(OrderInProgressRepositoryInterface::class, OrderInProgressRepository::class);
     }
     /**
      * Bootstrap services.

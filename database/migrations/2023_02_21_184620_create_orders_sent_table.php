@@ -22,8 +22,10 @@ return new class extends Migration
             $table->text('additional_info')->nullable();
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
+            $table->integer('phone_number');
+            $table->json('sections')->nullable();
             $table->integer('total_price')->nullable();
-            $table->boolean('accepted')->default(false);
+            $table->string('current_status')->nullable()->default('in_queue');
         });
     }
 
