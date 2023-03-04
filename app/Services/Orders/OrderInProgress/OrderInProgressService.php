@@ -33,4 +33,14 @@ class OrderInProgressService implements OrderInProgressInterface
 
         return $ordersInProgress;
     }
+
+    public function update(int $id): Bool {
+        $update = $this->inProgressRepository->update($id);
+
+        if (!$update) {
+            throw new HttpException(500, 'Something went wrong');
+        }
+
+        return $update;
+    }
 }
