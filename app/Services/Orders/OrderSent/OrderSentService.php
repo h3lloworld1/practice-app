@@ -3,6 +3,7 @@
 namespace App\Services\Orders\OrderSent;
 
 use App\Models\OrderSent;
+use App\Repositories\Orders\Interfaces\OrderInProgressRepositoryInterface;
 use App\Repositories\Orders\Interfaces\OrderSentRepositoryInterface;
 use App\Services\Orders\Interfaces\OrderSentInterface;
 use Illuminate\Database\Eloquent\Collection;

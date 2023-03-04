@@ -6,6 +6,6 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 interface OrderInProgressInterface
 {
-    public function store(ParameterBag $data);
-    public function list();
+    public function store(ParameterBag $id);
+    public function list(ParameterBag $filters);
 }
