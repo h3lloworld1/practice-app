@@ -36,4 +36,12 @@ class OrderInProgressRepository extends BaseRepository implements OrderInProgres
 
         return $queryBuilder->get();
     }
+
+    public function update(int $id): Bool {
+        $orderInProgress = $this->model->find($id);
+
+        return $orderInProgress->update([
+            'current_status' => 'finished'
+        ]);
+    }
 }

@@ -53,6 +53,7 @@ Route::prefix('orders')->group(function () {
 
     Route::get('/in-progress', [OrderInProgressController::class, 'index'])->name('order_in_progress.index');
     Route::post('/in-progress/create', [OrderInProgressController::class, 'store'])->name('order_in_progress.store');
+    Route::put('/in-progress/update/{id}', [OrderInProgressController::class, 'update'])->name('order_in_progress.update');
 });
 
 

@@ -23,4 +23,8 @@ class OrderInProgressController extends Controller
     public function index(OrderInProgressListingRequest $request): AnonymousResourceCollection {
         return OrderInProgressResource::collection($this->inProgressService->list(new ParameterBag($request->validated())));
     }
+
+    public function update(int $id): Bool {
+        return $this->inProgressService->update($id);
+    }
 }
