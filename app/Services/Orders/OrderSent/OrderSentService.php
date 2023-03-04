@@ -24,8 +24,8 @@ class OrderSentService implements OrderSentInterface {
 
         return $store;
     }
-    public function list(): Collection {
-        return $this->orderSentRepository->list();;
+    public function list(ParameterBag $filters): Collection {
+        return $this->orderSentRepository->list($filters);
     }
 
     public function update(int $id): Bool {

@@ -3,11 +3,12 @@
 namespace App\Repositories\Orders\OrderSent;
 
 use App\Models\OrderSent;
+use App\Repositories\BaseRepository;
 use App\Repositories\Orders\Interfaces\OrderSentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class OrderSentRepository implements OrderSentRepositoryInterface
+class OrderSentRepository extends BaseRepository implements OrderSentRepositoryInterface
 {
     public function __construct(private OrderSent $orderSent) {
         $this->model = $orderSent;
@@ -19,11 +20,13 @@ class OrderSentRepository implements OrderSentRepositoryInterface
         return $orderSent;
     }
 
-    public function list(): Collection {
-        return $this->model
-            ->where('current_status', 'in_queue')
-            ->orderBy('id', 'desc')
-            ->get();
+    public function list(ParameterBag $filters): Collection {
+        $queryBuilder =  $this->model
+            ->where('current_status', 'in_queue');
+
+        $queryBuilder = $this->orderByFilters($filters, $queryBuilder);
+
+        return $queryBuilder->get();
     }
 
     public function update(int $id): Bool {

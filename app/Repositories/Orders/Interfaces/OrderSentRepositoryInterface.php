@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 interface OrderSentRepositoryInterface
 {
     public function create(ParameterBag $data): ?OrderSent;
-    public function list(): Collection;
+    public function list(ParameterBag $filters): Collection;
     public function update(int $id): Bool;
     public function decline(int $id): Bool;
 }

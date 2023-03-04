@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequests\OrderSent\OrderSentListingRequest;
 use App\Http\Requests\OrderRequests\OrderSent\OrderSentRequest;
 use App\Http\Resources\OrderResources\OrderSent\OrderSentResource;
 use App\Services\Orders\Interfaces\OrderSentInterface;
@@ -15,11 +16,11 @@ class OrderSentController extends Controller
 
     }
 
-    public function index(): AnonymousResourceCollection {
-        return OrderSentResource::collection($this->orderSentService->list());
+    public function index(OrderSentListingRequest $request): AnonymousResourceCollection {
+        return OrderSentResource::collection($this->orderSentService->list(new ParameterBag($request->validated())));
     }
 
-    public function store(OrderSentRequest $request) {
+    public function store(OrderSentRequest $request): OrderSentResource {
         return new OrderSentResource($this->orderSentService->create(new ParameterBag($request->validated())));
     }
 
