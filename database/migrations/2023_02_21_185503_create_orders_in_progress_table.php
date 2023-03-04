@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->json('sections')->nullable();
+            $table->integer('phone_number');
             $table->integer('total_price')->nullable();
             $table->string('current_status')->default('in_progress');
         });

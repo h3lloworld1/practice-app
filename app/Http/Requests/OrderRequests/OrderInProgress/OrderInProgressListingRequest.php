@@ -4,7 +4,7 @@ namespace App\Http\Requests\OrderRequests\OrderInProgress;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateOrderInProgressRequest extends FormRequest
+class OrderInProgressListingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CreateOrderInProgressRequest extends FormRequest
     public function rules()
     {
         return [
-            "order_id" => "int"
+            'order_by' => 'string'
         ];
     }
 }
