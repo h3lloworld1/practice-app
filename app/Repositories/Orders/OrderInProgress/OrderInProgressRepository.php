@@ -6,6 +6,7 @@ use App\Models\OrderInProgress;
 use App\Models\OrderSent;
 use App\Repositories\BaseRepository;
 use App\Repositories\Orders\Interfaces\OrderInProgressRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class OrderInProgressRepository extends BaseRepository implements OrderInProgressRepositoryInterface
@@ -14,7 +15,7 @@ class OrderInProgressRepository extends BaseRepository implements OrderInProgres
         $this->model = $this->orderInProgress;
     }
 
-    public function store(ParameterBag $id) {
+    public function store(ParameterBag $id): ?OrderInProgress {
         $orderSent = $this->orderSent->where('id', $id->get('order_id'))
             ->where('current_status', 'accepted_by_restaurant')
             ->firstOrFail();
@@ -26,7 +27,7 @@ class OrderInProgressRepository extends BaseRepository implements OrderInProgres
         return $this->model->create($orderSentData);
     }
 
-    public function list(?ParameterBag $filters) {
+    public function list(?ParameterBag $filters): ?Collection {
 
         $queryBuilder = $this->model
             ->where('current_status', 'in_progress');
