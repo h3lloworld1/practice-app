@@ -26,4 +26,8 @@ class OrderFinishedController extends Controller
     public function update(int $id): Bool {
         return $this->orderFinished->update($id);
     }
+
+    public function decline(int $id): Bool {
+        return $this->orderFinished->decline($id);
+    }
 }

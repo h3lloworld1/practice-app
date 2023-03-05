@@ -36,10 +36,18 @@ class OrderFinishedRepository extends BaseRepository implements OrderFinishedRep
     }
 
     public function update(int $id): Bool {
-        $finishedOrder = $this->model->find($id);
+        $finishedOrder = $this->model->findOrFail($id);
 
         return $finishedOrder->update([
             'current_status' => 'taken'
+        ]);
+    }
+
+    public function decline(int $id): Bool {
+        $declinedOrder = $this->model->findOrFail($id);
+
+        return $declinedOrder->update([
+            'current_status' => 'declined_by_customer'
         ]);
     }
 
