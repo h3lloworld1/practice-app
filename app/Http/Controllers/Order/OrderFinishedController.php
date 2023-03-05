@@ -23,7 +23,7 @@ class OrderFinishedController extends Controller
         return OrderFinishedResource::collection($this->orderFinished->list(new ParameterBag($request->validated())));
     }
 
-//    public function update(int $id) {
-//
-//    }
+    public function update(int $id): Bool {
+        return $this->orderFinished->update($id);
+    }
 }

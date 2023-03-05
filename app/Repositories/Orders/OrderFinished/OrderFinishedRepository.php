@@ -34,4 +34,13 @@ class OrderFinishedRepository extends BaseRepository implements OrderFinishedRep
 
         return $queryBuilder->get();
     }
+
+    public function update(int $id): Bool {
+        $finishedOrder = $this->model->find($id);
+
+        return $finishedOrder->update([
+            'current_status' => 'taken'
+        ]);
+    }
+
 }

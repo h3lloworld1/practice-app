@@ -27,7 +27,7 @@ class OrderInProgressService implements OrderInProgressInterface
     public function list(ParameterBag $filters): ?Collection {
         $ordersInProgress = $this->inProgressRepository->list($filters);
 
-        if (!$ordersInProgress) {
+        if (!$ordersInProgress->count()) {
             throw new HttpException(404, 'Orders in progress not found');
         }
 

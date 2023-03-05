@@ -10,4 +10,5 @@ interface OrderFinishedRepositoryInterface
 {
     public function store(ParameterBag $data): ?OrderFinished;
     public function list(ParameterBag $filters): ?Collection;
+    public function update(int $id): Bool;
 }
