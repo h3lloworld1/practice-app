@@ -45,4 +45,14 @@ class OrderFinishedService implements OrderFinishedInterface
         return $updatedOrder;
     }
 
+    public function decline(int $id): Bool {
+        $declinedOrder = $this->orderFinishedRepository->decline($id);
+
+        if (!$declinedOrder) {
+            throw new HttpException(500, 'Declining error');
+        }
+
+        return $declinedOrder;
+    }
+
 }
