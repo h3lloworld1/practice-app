@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Order\OrderFinishedController;
 use App\Http\Controllers\Order\OrderInProgressController;
 use App\Http\Controllers\Order\OrderSentController;
 use Illuminate\Http\Request;
@@ -54,6 +55,11 @@ Route::prefix('orders')->group(function () {
     Route::get('/in-progress', [OrderInProgressController::class, 'index'])->name('order_in_progress.index');
     Route::post('/in-progress/create', [OrderInProgressController::class, 'store'])->name('order_in_progress.store');
     Route::put('/in-progress/update/{id}', [OrderInProgressController::class, 'update'])->name('order_in_progress.update');
+
+
+    Route::post('/finished/create', [OrderFinishedController::class, 'store'])->name('order_finished.store');
+    Route::get('/finished', [OrderFinishedController::class, 'index'])->name('order_finished.index');
+    Route::put('/finished/update/{id}', [OrderFinishedController::class, 'update'])->name('order_finished.update');
 });
 
 
