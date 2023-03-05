@@ -27,11 +27,22 @@ class OrderFinishedService implements OrderFinishedInterface
     public function list(ParameterBag $filters): ?Collection {
         $finishedOrders = $this->orderFinishedRepository->list($filters);
 
-        if (!$finishedOrders) {
+        if (!$finishedOrders->count()) {
             throw new HttpException(404, 'Finished orders not found');
         }
 
         return $finishedOrders;
+    }
+
+    public function update(int $id): Bool {
+        $updatedOrder = $this->orderFinishedRepository->update($id);
+
+        if (!$updatedOrder) {
+            throw new HttpException(500, 'Updating error');
+
+        }
+
+        return $updatedOrder;
     }
 
 }
