@@ -44,4 +44,10 @@ class OrderInProgressRepository extends BaseRepository implements OrderInProgres
             'current_status' => 'finished'
         ]);
     }
+
+    public function decline(int $id): Bool {
+        return $this->model->find($id)->update([
+            'current_status' => 'declined_while_preparing'
+        ]);
+    }
 }

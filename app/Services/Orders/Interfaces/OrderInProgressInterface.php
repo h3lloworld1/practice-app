@@ -11,4 +11,5 @@ interface OrderInProgressInterface
     public function store(ParameterBag $id): ?OrderInProgress;
     public function list(ParameterBag $filters): ?Collection;
     public function update(int $id): Bool;
+    public function decline(int $id): Bool;
 }

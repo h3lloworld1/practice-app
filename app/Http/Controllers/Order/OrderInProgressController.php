@@ -27,4 +27,8 @@ class OrderInProgressController extends Controller
     public function update(int $id): Bool {
         return $this->inProgressService->update($id);
     }
+
+    public function decline(int $id): Bool {
+        return $this->inProgressService->decline($id);
+    }
 }
